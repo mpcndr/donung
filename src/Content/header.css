@@ -11,7 +11,7 @@
     padding: 5px 28px 0 5px;
 }
 
-#input-search:focus, #button-search {
+#input-search:focus, #button-search, #button-search-ph {
     box-shadow: none !important;
 }
 
