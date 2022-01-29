@@ -10,7 +10,7 @@ export default function Header({ isTokenAdmin, removeTokenAdmin }) {
           <div class="container">
             <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom">
               <div class="container-fluid">
-                <a class="navbar-brand" href="/dashboard">
+                <a class="navbar-brand" href="/admin/dashboard">
                   Admin
                 </a>
                 <div class="d-flex justify-content-end">
@@ -39,7 +39,7 @@ export default function Header({ isTokenAdmin, removeTokenAdmin }) {
                 </div>
               </div>
             </nav>
-            <Dashboard/>
+            <Dashboard isTokenAdmin={isTokenAdmin}/>
           </div>
         </>
       ) : (

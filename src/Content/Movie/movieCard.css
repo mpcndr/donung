@@ -1,5 +1,5 @@
-.img-movie-new {
-    position: relative;
+.image {
+    /* position: relative; */
     overflow: hidden;
     display: block;
     width: 12rem;
@@ -7,15 +7,14 @@
     border-radius: 8px;
 }
 
-.image {
+.image-movie {
     width: 12rem;
     height: 16rem;
 }
 
-.description {
+.wrap-card{
     position: absolute;
     bottom: 0;
-    left: 0;
     background: linear-gradient(to bottom, transparent, rgb(85, 85, 85));
     overflow: hidden;
     width: 12rem;
@@ -24,71 +23,48 @@
     border-radius: 0 0 8px 8px;
 }
 
+.movie-wrap:hover .wrap-card {
+    height: 60%;
+    display: block;
+}
+
+.image:hover, .description:hover {
+    cursor: pointer;
+}
+
 .movie-card:hover .description {
     height: 60%;
+}
+
+.image-hover {
+    transform: scale(1.08);
 }
 
 .movie-card {
     cursor: pointer;
 }
 
-.img-movie-new img {
+.image-movie {
     transition: transform 0.8s ease;
 }
 
-.img-movie-new:hover img {
+.image .image-movie:hover {
     transform: scale(1.08);
 }
 
-.text, .add-fav, .genre {
+.text-title, .text-genre, .text-fav, .bi {
     color: white;
-    position: absolute;
-    bottom: 0;
-    padding-left: 10px;
-    display: block;
-    /* -webkit-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%); */
-    /* transform: translate(-50%, -50%); */
+    
 }
 
-.text-title {
-    font-size: 16px;
+.text-title, .text-genre {
+    font-size: 14px;
 }
 
-.text-genre {
+.bi::before, .text-fav {
+    vertical-align: middle;
+}
+
+.text-fav {
     font-size: 12px;
 }
-
-/* @media only screen and (max-width: 400px) {
-    .img-movie-new {
-        position: relative;
-        overflow: hidden;
-        display: block;
-        width: 8rem;
-        height: 12rem;
-        border-radius: 8px;
-    }
-
-    .image {
-        width: 8rem;
-        height: 12rem;
-    }
-
-    .description {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        background: linear-gradient(to bottom, transparent, rgb(85, 85, 85));
-        overflow: hidden;
-        width: 8rem;
-        height: 0;
-        transition: .6s ease;
-        border-radius: 0 0 8px 8px;
-    }
-    .text-title {
-        font-size: 10px;
-    }
-    .text-genre {
-        font-size: 8px;
-    }
-} */

@@ -1,17 +1,19 @@
 import axios from "axios";
 import { useState } from "react";
 import def from "../Def";
+import { apiPost } from "../Helper/apiHelper";
 
 export default function Login(props) {
   let setTokenAdmin = props.setTokenAdmin;
   let isTokenAdmin = props.isTokenAdmin;
   let [email, setEmail] = useState("");
   let [password, setPassword] = useState("");
+  
 
   let submit = async (e) => {
     e.preventDefault();
     let data = { email: email, password: password };
-    axios.post(def.apiURL + "/admin", data).then((res) => {
+    apiPost("/admin", data).then((res) => {
       console.log(res.data);
       if (res.data.isSuccess == false) {
         console.log("login fail");

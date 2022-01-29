@@ -5,25 +5,21 @@ import def from "../Def";
 import "./home.css";
 import movieTitle from "./Movie/movieTitle";
 import { useCookies } from "react-cookie";
+import { apiGet, userAuthGet } from "../Helper/apiHelper";
 
 export default function Home() {
-
   const [movielist, setMovie] = useState([]);
   const [favourite, setFavourite] = useState([]);
   const [cookie, setCookie, removeCookie] = useCookies(["username", "token"]);
 
   async function f() {
-    let response = await axios.get(def.apiURL + "/getAll");
+    let response = await apiGet("/getAll");
     setMovie(response.data.res_movie);
     console.log(response.data.res_movie);
     if (cookie.username != "" && cookie.username != undefined) {
-      let res = await axios.get(
-        def.apiURL + "/getfavourite?user=" + cookie.username,
-        {
-          headers: {
-            Authorization: cookie.token,
-          },
-        }
+      let res = await userAuthGet(
+        "/getfavourite?user=" + cookie.username,
+        cookie.token
       );
       if (res.data.isSuccess == true) {
         setFavourite(res.data.fav_list);
@@ -52,7 +48,11 @@ export default function Home() {
           <h5>มาใหม่สัปดาห์นี้</h5>
         </div>
         <div class="card-movie">
-          <MovieCard movielist={movielist} favourite={favourite} setFavourite={setFavourite}/>
+          <MovieCard
+            movielist={movielist}
+            favourite={favourite}
+            setFavourite={setFavourite}
+          />
         </div>
       </div>
       <div>
@@ -60,7 +60,11 @@ export default function Home() {
           <h5>ติดเทรนในประเทศไทย</h5>
         </div>
         <div class="card-movie">
-          <MovieCard movielist={movielist} favourite={favourite} setFavourite={setFavourite}/>
+          <MovieCard
+            movielist={movielist}
+            favourite={favourite}
+            setFavourite={setFavourite}
+          />
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import def from "../Def";
+import { apiPost } from "../Helper/apiHelper";
 
 export default function LoginModal(props) {
   let setToken = props.setToken;
@@ -11,8 +12,7 @@ export default function LoginModal(props) {
   let login = async (e) => {
     e.preventDefault();
     let data = { username: user, password: password };
-    axios
-      .post(def.apiURL + "/login", data)
+    apiPost("/login", data)
       .then((res) => {
         console.log(res.data);
         if (res.data.isSuccess == false) {

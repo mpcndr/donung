@@ -7,6 +7,7 @@ import "./movieCard.css";
 import MovieTitle from "./movieTitle";
 import def from "../../Def";
 import { useCookies } from "react-cookie";
+import { userAuthPost } from "../../Helper/apiHelper";
 
 // import def from "../../Def";
 export default function Movie_list(props) {
@@ -20,7 +21,7 @@ export default function Movie_list(props) {
   let setFav = props.setFavourite;
 
   let clickMovie = (e) => {
-    // window.location.href = `/movie/${movie.movie_title}`;
+    window.location.href = `/movie/${movie.movie_title}`;
   };
 
   let clickFav = (e) => {
@@ -29,30 +30,21 @@ export default function Movie_list(props) {
       if (cookie.username == "" && cookie.username == undefined) {
         return;
       }
+      let data = {
+        user: cookie.username,
+        movie: movie.movie_title,
+      };
       console.log(cookie.username);
-      axios
-        .post(
-          def.apiURL + "/favmovie",
-          {
-            user: cookie.username,
-            movie: movie.movie_title,
-          },
-          {
-            headers: {
-              Authorization: cookie.token,
-            },
-          }
-        )
-        .then((res) => {
-          if (res.data.isSuccess == true) {
-            setFavorite({
-              isFav: true,
-            });
-            let dummy = [...favList];
-            dummy.push(movie.movie_title);
-            setFav(dummy);
-          }
-        });
+      userAuthPost("/favmovie", data, cookie.token).then((res) => {
+        if (res.data.isSuccess == true) {
+          setFavorite({
+            isFav: true,
+          });
+          let dummy = [...favList];
+          dummy.push(movie.movie_title);
+          setFav(dummy);
+        }
+      });
     }
   };
 
@@ -61,19 +53,11 @@ export default function Movie_list(props) {
       if (cookie.username == "" && cookie.username == undefined) {
         return;
       }
-      axios
-        .post(
-          def.apiURL + "/deleteMovieFav",
-          {
-            user: cookie.username,
-            movie: movie.movie_title,
-          },
-          {
-            headers: {
-              Authorization: cookie.token,
-            },
-          }
-        )
+      let data = {
+        user: cookie.username,
+        movie: movie.movie_title,
+      };
+      userAuthPost("/deleteMovieFav", data, cookie.token)
         .then((res) => {
           if (res.data.isSuccess == true) {
             setFavorite({
@@ -96,8 +80,57 @@ export default function Movie_list(props) {
 
   return (
     <>
-      <div class="movie-card">
-        {/* <Link to={`/movie/${movie.movie_title}`}> */}
+      <div
+        class="movie-wrap"
+        onMouseOver={() => {
+          document
+            .getElementById("img-" + movie.movie_id)
+            .classList.add("image-hover");
+        }}
+        onMouseOut={() => {
+          console.log("asdasds");
+          document
+            .getElementById("img-" + movie.movie_id)
+            .classList.remove("image-hover");
+        }}
+      >
+        <div class="image" onClick={clickMovie}>
+          <img
+            id={"img-" + movie.movie_id}
+            src={movie.img}
+            alt="Avatar"
+            class="image-movie"
+          />
+        </div>
+        <div class="wrap-card">
+          <div class="description" onClick={clickMovie}>
+            <div class="title">
+              <p class="text-title text-truncate m-0 ms-1">
+                {movie.movie_title}
+              </p>
+            </div>
+            <div class="genre">
+              <p class="text-genre text-truncate m-0 ms-1">{movie.genre}</p>
+            </div>
+          </div>
+          {isFavorite.isFav == false ? (
+            <div class="add-favourite" onClick={clickFav}>
+              <a class="icon text-decoration-none" href="#">
+                <i class="bi bi-plus-lg ms-1"></i>
+                <span class="text-fav">เพิ่มในรายการโปรดของฉัน</span>
+              </a>
+            </div>
+          ) : (
+            <div class="add-favourite" onClick={clickDelete}>
+              <a class="icon text-decoration-none" href="#">
+                <i class="bi bi-check-lg ms-1"></i>
+                <span class="text-fav">ลบออกจากรายการโปรด</span>
+              </a>
+            </div>
+          )}
+        </div>
+      </div>
+      {/* <div class="movie-card">
         <div class="img-movie-new" onClick={clickMovie}>
           <img src={movie.img} alt="Avatar" class="image" />
           <div class="description">
@@ -136,9 +169,8 @@ export default function Movie_list(props) {
             </div>
           </div>
         </div>
-        {/* </Link> */}
-      </div>
+        
+      </div> */}
     </>
   );
-  //   }
 }

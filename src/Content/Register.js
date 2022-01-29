@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import def from "../Def";
 import DialogRegis from "../Component/DialogRegis"
+import {apiPost, apiGet} from "../Helper/apiHelper";
 
 export default function Register() {
   let [user, setUser] = useState("");
@@ -15,7 +16,7 @@ export default function Register() {
     let data = { username: user, password: password, email: email, tel: tel };
     if (password == confirmPwd) {
       document.getElementById("check").innerHTML = "";
-      let request = await axios.post(def.apiURL + "/register", data);
+      let request = await apiPost("/register", data);
       document.getElementById("btn-regis").click();
     } else {
       document.getElementById("check").innerHTML = "รหัสผ่านไม่ตรงกัน";
@@ -24,7 +25,7 @@ export default function Register() {
   };
   useEffect(() => {
     if (user != "") {
-      axios.get(def.apiURL + "/checkuser?username=" + user).then((res) => {
+      apiGet("/checkuser?username=" + user).then((res) => {
         if (res.data.isSuccess == true) {
           document.getElementById("checkuser").innerHTML =
             "ชื่อผู้ใช้สามารถใช้งานได้";

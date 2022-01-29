@@ -34,7 +34,7 @@ export default function movieCard(props) {
           movies.map((movie) => {
             return (
               <div class="col">
-                <div class="container">
+                <div class="container position-relative">
                   <Movie MovieList={movie} favourite={favourite} setFavourite={setFavourite}/>
                 </div>
               </div>
